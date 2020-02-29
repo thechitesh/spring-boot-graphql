@@ -64,7 +64,18 @@ public class GraphQLDataFetchers {
   public DataFetcher getPageCountDataFetcher() {
     return dataFetchingEnvironment -> {
       Map<String,String> book = dataFetchingEnvironment.getSource();
-      return book.get("totalPages");
+      return book.get("pageCount");
+    };
+  }
+
+  public DataFetcher getAuthorByIdDataFetcher() {
+    return dataFetchingEnvironment -> {
+      String authorId = dataFetchingEnvironment.getArgument("id");
+      return authors
+        .stream()
+        .filter(author -> author.get("id").equals(authorId))
+        .findFirst()
+        .orElse(null);
     };
   }
 }
